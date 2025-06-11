@@ -75,14 +75,15 @@ async function calculateAttribution(
       weights[touchpoints[touchpoints.length - 1].id] = 1;
       break;
 
-    case 'linear':
+    case 'linear': {
       const weight = 1 / touchpoints.length;
       touchpoints.forEach(tp => {
         weights[tp.id] = weight;
       });
       break;
+    }
 
-    case 'time_decay':
+    case 'time_decay': {
       const decayBase = settings.decay_base || 0.7;
       const lastTs = new Date(touchpoints[touchpoints.length - 1].timestamp).getTime();
       let totalWeight = 0;
@@ -99,6 +100,7 @@ async function calculateAttribution(
         weights[id] = weights[id] / totalWeight;
       });
       break;
+    }
 
     default:
       // Default to last-touch attribution
